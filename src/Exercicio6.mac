@@ -1,0 +1,7 @@
+ROUTINE Exercicio6
+Exercicio6 
+
+  Set data = "22/05/1981"
+ Write $ZDATEH(data,4),!
+ Write $ZDATE($ZDATEH(data,4),18),!
+ Write $PIECE($ZDATE($ZDATEH(data,4),18), " ",2),!
