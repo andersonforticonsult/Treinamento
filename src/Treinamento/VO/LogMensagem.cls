@@ -1,10 +1,10 @@
-Class Treinamento.VO.LogMensagem Extends (%Persistent, %XML.Adaptor)
+Class Treinamento.VO.LogMensagem Extends (%SerialObject, %XML.Adaptor)
 {
- Property ID As %String;
-
+    Property ID As %String;
 Property Metodo As %String;
 
-Property Classe As %TimeStamp;
+Property Classe As %String;
+
 Property Inicio As %String;
 
 Property Fim As %String;
@@ -12,43 +12,34 @@ Property Fim As %String;
 Property Status As %Boolean;
 
 Property StatusProcesso As %String;
-
-
-
 Storage Default
 {
-<Data name="LogMensagemDefaultData">
+<Data name="LogMensagemState">
 <Value name="1">
-<Value>%%CLASSNAME</Value>
-</Value>
-<Value name="2">
-<Value>ID</Value>
-</Value>
-<Value name="3">
 <Value>Metodo</Value>
 </Value>
-<Value name="4">
+<Value name="2">
 <Value>Classe</Value>
 </Value>
-<Value name="5">
+<Value name="3">
 <Value>Inicio</Value>
 </Value>
-<Value name="6">
+<Value name="4">
 <Value>Fim</Value>
 </Value>
-<Value name="7">
+<Value name="5">
 <Value>Status</Value>
 </Value>
-<Value name="8">
+<Value name="6">
 <Value>StatusProcesso</Value>
 </Value>
+<Value name="7">
+<Value>ID</Value>
+</Value>
 </Data>
-<DataLocation>^Treinamento.VO.LogMensagemD</DataLocation>
-<DefaultData>LogMensagemDefaultData</DefaultData>
-<IdLocation>^Treinamento.VO.LogMensagemD</IdLocation>
-<IndexLocation>^Treinamento.VO.LogMensagemI</IndexLocation>
-<StreamLocation>^Treinamento.VO.LogMensagemS</StreamLocation>
-<Type>%Storage.Persistent</Type>
+<State>LogMensagemState</State>
+<StreamLocation>^Treinamento.Da2C80.LogMensagemS</StreamLocation>
+<Type>%Storage.Serial</Type>
 }
 
 }

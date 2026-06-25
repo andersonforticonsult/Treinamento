@@ -53,8 +53,9 @@ ExercicoObj
  W "Salvando Turma",! 
 
  W "Salvando Turma",!   
- Set statusTurma = turma.VerificaStatus("Obj Script")
- w "Status da Turma: ", statusTurma,!
+ //teste
+ //Set statusTurma = turma.VerificaStatus("Obj Script")
+ // w "Status da Turma: ", statusTurma,!
 
  Do ##class(Treinamento.Data.Turma).ImprimeTurma("Obj Script")
     

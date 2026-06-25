@@ -13,30 +13,58 @@ Class Treinamento.Data.Turma Extends (%Persistent, %XML.Adaptor)
 
  Method VerificaStatus(curso As %String) As %String 
  {
-    Set status = $$$OK
-    Set statusTurma = ""
-    Set sql = "SELECT * FROM Treinamento_Data.Turma where Curso-> Nome = '"_curso_"'"
-    set resultSet = ##class(%ResultSet).%New()
-    Set status = resultSet.Prepare(sql)
-    Set status = resultSet.Execute()
-
-
-    While resultSet.%Next() {
+    Set status = $$$OK   
+    Set Classe = $ZNAME
+    Set core = ##class(Treinamento.Data.LogMensagem).%New()
+    Set curso = "Obj Script"
+    
+  Try 
+  {	   
+        Set StatusTuma = "" 
+        Set StatusProcesso = "Metodo VerificaStatus Foi executado com sucesso!"
+        Set pStatus = 1
+        Set init = core.CriarEntrada("VerificaStatus",Classe)
+        Set IdLog = init.%Id()        
         
-       // Set statusTurma = resultSet.%Get("Status")
-
-        Set idTurma = resultSet.%Get("ID") 
-        Set turma= ##class(Treinamento.Data.Turma).%OpenId(idTurma)
-        Set statusTurma = turma.Status
+        Set SQL = "SELECT * FROM Treinamento_Data.Turma where Curso-> Nome = '"_curso_"'"        
+        Set resultSet = ##class(%ResultSet).%New()         
+        Set status = resultSet.Prepare(SQL)   
+        Set status = resultSet.Execute()      
+        
+        if resultSet.Next()
+        {
+            Set StatusTuma = resultSet.Get("Status")
+        }         
+        Set fim = core.Finalizar(IdLog,StatusProcesso,pStatus)   
+    
     }
-
-    return statusTurma
+    Catch ex 
+    {
+        Set status= ex.AsStatus()
+        Set statusErroEspc = status
+        Set erroMsg  = $SYSTEM.Status.GetOneErrorText(status)
+        Set pStatus = 0
+        Set erro     = "IdLog :"_IdLog_" - ErroLog :"_erroMsg_" Detalhes : "_statusErroEspc
+        Set fim = core.Finalizar(IdLog,erro,pStatus)       
+        Throw ex
+    }
+     Set fim = core.Finalizar(IdLog,erro,pStatus)            
+  Return StatusTuma
  }
 ClassMethod ImprimeTurma(curso As %String) As %Status
  {
-    Set status = $$$OK    
+
+    Set status = $$$OK   
+    Set Classe = $ZNAME
+    Set core = ##class(Treinamento.Data.LogMensagem).%New()   
+     
     try 
     {
+         Set StatusProcesso = "Metodo ImprimeTurma Foi executado com sucesso!"
+         Set pStatus = 1
+         Set init = core.CriarEntrada("ImprimeTurma",Classe)
+         set IdLog = init.%Id()
+
         Set sql = "SELECT * FROM Treinamento_Data.Turma where Curso-> Nome = '"_curso_"'"
         set resultSet = ##class(%ResultSet).%New()
         
@@ -44,7 +72,7 @@ ClassMethod ImprimeTurma(curso As %String) As %Status
         if $SYSTEM.Status.IsError(status) return status
 
         Set status = resultSet.Execute()
-        if $SYSTEM.Status.IsError(status) return status
+        
 
         If resultSet.%Next()
         {
@@ -58,12 +86,17 @@ ClassMethod ImprimeTurma(curso As %String) As %Status
             }     
     
     } 
-    catch(exception)  
+    catch ex 
     {
       Set status = ex.AsStatus()
-      Throw exception
-    
+      Set statusErroEspc = status
+      Set erroMsg  = $SYSTEM.Status.GetOneErrorText(status)
+      Set pStatus = 0
+      set erro    = "IdLog :"_IdLog_" - ErroLog :"_erroMsg_" Detalhes : "_statusErroEspc
+      Set fim = core.Finalizar(IdLog,erro,pStatus)
+      Throw ex    
     }
+    Set fim = core.Finalizar(IdLog,StatusProcesso,pStatus)
     return 
  }
 
