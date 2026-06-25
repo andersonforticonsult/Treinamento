@@ -1,15 +1,19 @@
 Class Treinamento.VO.LogMensagem Extends (%Persistent, %XML.Adaptor)
 {
+ Property ID As %String;
 
 Property Metodo As %String;
 
 Property Classe As %TimeStamp;
+Property Inicio As %String;
 
 Property Fim As %String;
 
 Property Status As %Boolean;
 
 Property StatusProcesso As %String;
+
+
 
 Storage Default
 {
@@ -18,18 +22,24 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>Metodo</Value>
+<Value>ID</Value>
 </Value>
 <Value name="3">
-<Value>Classe</Value>
+<Value>Metodo</Value>
 </Value>
 <Value name="4">
-<Value>Fim</Value>
+<Value>Classe</Value>
 </Value>
 <Value name="5">
-<Value>Status</Value>
+<Value>Inicio</Value>
 </Value>
 <Value name="6">
+<Value>Fim</Value>
+</Value>
+<Value name="7">
+<Value>Status</Value>
+</Value>
+<Value name="8">
 <Value>StatusProcesso</Value>
 </Value>
 </Data>

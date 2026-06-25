@@ -1,20 +1,74 @@
 Class Treinamento.Data.LogMensagem Extends (%Persistent, %XML.Adaptor)
 {
 
- property Metodo As %String(MAXLEN = "") [ SqlColumnNumber = 2 ];
+Property Metodo As %String(MAXLEN = "") [ SqlColumnNumber = 2 ];
 
- property Classe As %String (MAXLEN = "")[ SqlColumnNumber = 3 ];
+Property Classe As %String(MAXLEN = "") [ SqlColumnNumber = 3 ];
 
- property Inicio As %String [ SqlColumnNumber = 4 ];
+Property Inicio As %String [ SqlColumnNumber = 4 ];
 
- property Fim As %String [ SqlColumnNumber = 5 ];
+Property Fim As %String [ SqlColumnNumber = 5 ];
 
- property Status As %Boolean [ SqlColumnNumber = 6 ];
+Property Status As %Boolean [ SqlColumnNumber = 6 ];
 
- property StatusProcesso As %String [ SqlColumnNumber = 7 ];
+Property StatusProcesso As %String [ SqlColumnNumber = 7 ];
 
-property ListaLog As list Of Treinamento.VO.LogMensagem;
+Property ListaLog As list Of Treinamento.VO.LogMensagem;
 
+ClassMethod CriarEntrada(pMetodo As %String, pClasse As %String) As Treinamento.Data.LogMensagem
+{
+    Set tSC = $$$OK 
+    try
+     {
+        #; Set classe                   = ..%ClassName()
+        #; Set name                     =   $ZNAME
+        #Dim exception               As %Exception.General = ""
+        #Dim statuCode               As %Status            = $SYSTEM.Status.OK()
+        #Dim entry                   As LogMensagem        = ..%New()
+        
+
+        Set entry.Metodo                = pMetodo
+        Set entry.Classe                = pClasse
+        Set entry.Inicio                = $ZDATETIME($HOROLOG,4)
+        set entry.Status                = statuCode
+        SET statusCode                  = entry.%Save()
+    }
+    catch(exception) 
+    {
+        Set tSC  = exception.AsStatus() 
+        Set errorMensagem = $SYSTEM.Status.GetOneErrorText(tSC)
+        Throw exception
+    }   
+
+    return entry
+
+}
+ClassMethod Finalizar(pIdLog As %Integer, pStatusProcesso As %String, pStatusCode As %String) As Treinamento.Data.LogMensagem
+{
+    Set tSC = $$$OK 
+    try
+     {
+        
+        #Dim exception               As %Exception.General = ""
+        #Dim statuCode               As %Status            = $SYSTEM.Status.OK()
+        #Dim entry                   As LogMensagem        = ..%OpenId(pIdLog)
+        
+
+        Set entry.Fim                  =  $ZDATETIME($HOROLOG,4)
+        Set entry.StatusProcesso        = pStatusProcesso        
+        set entry.Status                = statuCode
+        SET statusCode                  = entry.%Save()
+    }
+    catch(exception) 
+    {
+        Set tSC  = exception.AsStatus() 
+        Set errorMensagem = $SYSTEM.Status.GetOneErrorText(tSC)
+        Throw exception
+    }   
+
+    return entry
+
+}
 
 
 Storage Default

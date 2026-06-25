@@ -18,8 +18,8 @@
          {
             "type": "objectscript",
             "request": "launch",
-            "name": "Debug InvokeRoutine2",
-            "program": "^InvokeRoutine2",
+            "name": "Debug CriarLogMensgem",
+            "program": "^CriarLogMensgem",
             "system": true
           }
         
