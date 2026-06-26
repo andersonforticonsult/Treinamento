@@ -1,0 +1,117 @@
+ROUTINE GeraDadosCardinalidade
+ 
+    Set objUsuario = ##class(Treinamento.Data.Usuario).UsernameIndexOpen("Anderson")
+
+    If $IsObject(objUsuario)
+    {
+        Write "Nome: ", objUsuario.Nome, !
+        Write "Sobrenome: ", objUsuario.SobreNome, !
+        Write "Email: ", objUsuario.Email, !
+    } 
+    Else 
+    {
+        Write "Usuário não encontrado!", !
+    }
+
+    
+    Set existe = ##class(Treinamento.Data.Usuario).UsernameIndexExists("Anderson", .id)
+
+    If existe 
+    {
+        Write "Usuário existe! ID: ", id, !
+    } 
+    Else
+    {
+        Write "Usuário não existe!", !
+    }
+
+    //teste
+    Set status = ##class(Treinamento.Data.Usuario).UsernameIndexDelete("Anderson")
+
+    If status = 1 {
+        Write "Usuário deletado com sucesso!", !
+    } Else {
+        Write "Erro ao deletar: ", $System.Status.GetErrorText(status), !
+    }
+
+
+    Kill ^Treinamento.Data.UsuarioD
+    Kill ^Treinamento.Data.UsuarioI  
+    Kill ^Treinamento.Data.PerfilD
+    Kill ^Treinamento.Data.NivelD
+ //teste
+    #Include %occStatus
+
+    Set nivelNome(1) = "Acesso Total"
+    Set nivelNome(2) = "Acesso Gerente"
+    Set nivelNome(3) = "Acesso Coordenador"
+
+    Set nivelDesc(1) = "Acesso Total"
+    Set nivelDesc(2) = "Acesso Gerente"
+    Set nivelDesc(3) = "Acesso Coordenador"
+
+    For i=1:1:3 {
+        Set nivel(i) = ##class(Treinamento.Data.Nivel).%New()
+        Set nivel(i).Codigo   = i
+        Set nivel(i).NomeNivel = nivelNome(i)
+        Set nivel(i).Nivel    = nivelDesc(i)
+
+        Set sc = nivel(i).%Save()
+        If '$$$ISOK(sc) {
+            Do $System.Status.DisplayError(sc)
+            Quit
+        }
+    }
+
+    Set perfilNome(1) = "Diretor"
+    Set perfilNome(2) = "Gerente"
+    Set perfilNome(3) = "Coordenador"
+
+    For i=1:1:3 {
+        Set perfil(i) = ##class(Treinamento.Data.Perfil).%New()
+        Set perfil(i).Codigo    = i
+        Set perfil(i).NomePerfil = perfilNome(i)
+        Set perfil(i).Perfil    = perfilNome(i)
+        Set perfil(i).Nivel     = nivel(i)
+
+        Set sc = perfil(i).%Save()
+        If '$$$ISOK(sc) {
+            Do $System.Status.DisplayError(sc)
+            Quit
+        }
+    }
+
+    Set nome(1)      = "Anderson"
+    Set nome(2)      = "Ana"
+    Set nome(3)      = "Paulo"
+
+    Set sobrenome(1) = "Silva"
+    Set sobrenome(2) = "Aquino"
+    Set sobrenome(3) = "Soares"
+
+    Set usuario(1)   = "anderson.soares"
+    Set usuario(2)   = "ana.aquino"
+    Set usuario(3)   = "paulo.soares"
+
+    Set email(1)     = "diretor@exemplo.com"
+    Set email(2)     = "gerente@exemplo.com"
+    Set email(3)     = "coordenador@exemplo.com"
+
+    For i=1:1:3 {
+        Set obj = ##class(Treinamento.Data.Usuario).%New()
+        Set obj.Nome      = nome(i)
+        Set obj.SobreNome = sobrenome(i)
+        Set obj.Sexo      = "M"
+        Set obj.Email     = email(i)
+        Set obj.Usuario   = usuario(i)
+        Set obj.Perfil    = perfil(i)
+
+        Set sc = obj.%Save()
+        If '$$$ISOK(sc) {
+            Do $System.Status.DisplayError(sc)
+            Quit
+        }
+    }
+
+    Write !,"Dados gerados com sucesso!",!
+    Quit
