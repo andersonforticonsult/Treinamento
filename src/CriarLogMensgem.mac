@@ -21,25 +21,25 @@ ROUTINE CriarLogMensgem
  Set LogMensagemCriar = ##class(Treinamento.Data.LogMensagem).CriarEntrada("pMetodo", "pClasse")
  Set IdLog  = LogMensagemCriar.%Id()
 
-#;  Set LogFinalizar = ##class(Treinamento.Data.LogMensagem).Finalizar(IdLog, pStatusProcesso, pStatusCode)
+ Set LogFinalizar = ##class(Treinamento.Data.LogMensagem).Finalizar(IdLog, pStatusProcesso, pStatusCode)
 
-#;  Set objConsultaLog = ##class(Treinamento.Data.LogMensagem).ConsultaLog(pStatus)
-#;   For i=1:1:objConsultaLog.ListaLog.Count()
-#;   {
-#;      Set item = objConsultaLog.ListaLog.GetAt(i)
+ Set objConsultaLog = ##class(Treinamento.Data.LogMensagem).ConsultaLog(pStatus)
+  For i=1:1:objConsultaLog.ListaLog.Count()
+  {
+     Set item = objConsultaLog.ListaLog.GetAt(i)
 
-#;         Set jsonItem  = ##class(%DynamicObject).%New()
-#;         Set jsonItem.Metodo = item.Metodo
-#;         Set jsonItem.Classe = item.Classe
-#;         Set jsonItem.Inicio = item.Inicio
-#;         Set jsonItem.Fim = item.Fim
-#;         Set jsonItem.Status = item.Status
-#;         Set jsonItem.StatusProcesso = item.StatusProcesso  
-#;         Do jsonArray.%Push(jsonItem)      
+        Set jsonItem  = ##class(%DynamicObject).%New()
+        Set jsonItem.Metodo = item.Metodo
+        Set jsonItem.Classe = item.Classe
+        Set jsonItem.Inicio = item.Inicio
+        Set jsonItem.Fim = item.Fim
+        Set jsonItem.Status = item.Status
+        Set jsonItem.StatusProcesso = item.StatusProcesso  
+        Do jsonArray.%Push(jsonItem)      
     
-#;    } 
-#;    Write !, "Retorno do Json : ", ! 
-#;    Write jsonArray.%ToJSON(), !!
+   } 
+   Write !, "Retorno do Json : ", ! 
+   Write jsonArray.%ToJSON(), !!
 
  Set jsonLogUnico = ##class(Treinamento.Data.LogMensagem).BuscarLogPorIdJSON(IdLog)    
     Write !,"=== [JSON] LOG ÚNICO CRIADO ===",!
@@ -49,27 +49,27 @@ ROUTINE CriarLogMensgem
      Write "=== [JSON] CONSULTA PAGINADA ===",!
     Write jsonPaginado.%ToJSON(),!!
 
-#;  For i=1:1:objConsultaLog.ListaLog.Count()
-#;   {
-#;     Set item = objConsultaLog.ListaLog.GetAt(i)
-#;     Write "Item ", i, ! 
-#;     Write "Metodo ....: " , item.Metodo, !
-#;     Write "Classe ....: " , item.Classe, !
-#;     Write "Inicio ....: " , item.Inicio, !
-#;     Write "Fim ....: " , item.Fim, !
-#;     Write "Status ....: " , item.Status, !
-#;     Write "StatusProcesso ....:" , item.StatusProcesso, !!
+ For i=1:1:objConsultaLog.ListaLog.Count()
+  {
+    Set item = objConsultaLog.ListaLog.GetAt(i)
+    Write "Item ", i, ! 
+    Write "Metodo ....: " , item.Metodo, !
+    Write "Classe ....: " , item.Classe, !
+    Write "Inicio ....: " , item.Inicio, !
+    Write "Fim ....: " , item.Fim, !
+    Write "Status ....: " , item.Status, !
+    Write "StatusProcesso ....:" , item.StatusProcesso, !!
     
-#;  } 
+ } 
 
-#;  Set objLogPaginado = ##class(Treinamento.Data.LogMensagem).ConsultaLogPaginacao(pStatus, pLastId, pPageSize, pDataFim)
+ Set objLogPaginado = ##class(Treinamento.Data.LogMensagem).ConsultaLogPaginacao(pStatus, pLastId, pPageSize, pDataFim)
 
-#;     For i=1:1:objLogPaginado.ListaLog.Count()
-#;     {
-#;         Set item = objLogPaginado.ListaLog.GetAt(i)       
-#;         Write " ID : ", item.ID, " | Metodo : ", item.Metodo, " | Classe : ", item.Classe, "| Status : ", item.Status, !     
+    For i=1:1:objLogPaginado.ListaLog.Count()
+    {
+        Set item = objLogPaginado.ListaLog.GetAt(i)       
+        Write " ID : ", item.ID, " | Metodo : ", item.Metodo, " | Classe : ", item.Classe, "| Status : ", item.Status, !     
        
-#;         Write ! 
-#;     }
+        Write ! 
+    }
 
     
